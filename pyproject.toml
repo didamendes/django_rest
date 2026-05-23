@@ -5,7 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "django-filter>=25.2",
     "djangorestframework>=3.17.1",
+    "djangorestframework-simplejwt>=5.5.1",
     "djangorestframework-stubs>=3.17.0",
     "drf-yasg>=1.21.15",
 ]

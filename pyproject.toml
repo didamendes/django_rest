@@ -10,4 +10,10 @@ dependencies = [
     "djangorestframework-simplejwt>=5.5.1",
     "djangorestframework-stubs>=3.17.0",
     "drf-yasg>=1.21.15",
+    "pre-commit>=4.6.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.15",
 ]

@@ -10,30 +10,36 @@ from api.models import Empresa
 from rest_framework import viewsets, status
 from api.serializers import EmpresaSerializer
 
+
 class EmpresaViewSet(viewsets.ModelViewSet):
     queryset = Empresa.objects.all()
     serializer_class = EmpresaSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['nome', 'telefone']
-    search_fields = ['nome', 'telefone']
-    ordering_fields = ['id', 'nome', 'telefone']
-    ordering = ['id']
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+    filterset_fields = ["nome", "telefone"]
+    search_fields = ["nome", "telefone"]
+    ordering_fields = ["id", "nome", "telefone"]
+    ordering = ["id"]
 
-@api_view(['POST'])
+
+@api_view(["POST"])
 def soma_view(request, numero1, numero2):
     total = numero1 + numero2
     return Response({"resultado": total}, status=status.HTTP_200_OK)
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 def soma_formato2(request):
-    numero1 = request.data.get('numero1')
-    numero2 = request.data.get('numero2')
+    numero1 = request.data.get("numero1")
+    numero2 = request.data.get("numero2")
 
     if numero1 is None or numero2 is None:
         return Response(
             {"erro": "Os campos 'numero1' e 'numero2' são obrigatórios."},
-            status=status.HTTP_400_BAD_REQUEST
+            status=status.HTTP_400_BAD_REQUEST,
         )
 
     try:
@@ -41,7 +47,7 @@ def soma_formato2(request):
     except (TypeError, ValueError):
         return Response(
             {"erro": "Os campos 'numero1' e 'numero2' devem ser números inteiros."},
-            status=status.HTTP_400_BAD_REQUEST
+            status=status.HTTP_400_BAD_REQUEST,
         )
 
     return Response({"resultado": total}, status=status.HTTP_200_OK)
@@ -54,38 +60,32 @@ class SomaFormato2View(APIView):
             required=["numero1", "numero2"],
             properties={
                 "numero1": openapi.Schema(
-                    type=openapi.TYPE_INTEGER,
-                    description="Primeiro número inteiro"
+                    type=openapi.TYPE_INTEGER, description="Primeiro número inteiro"
                 ),
                 "numero2": openapi.Schema(
-                    type=openapi.TYPE_INTEGER,
-                    description="Segundo número inteiro"
+                    type=openapi.TYPE_INTEGER, description="Segundo número inteiro"
                 ),
             },
         ),
         responses={
             200: openapi.Schema(
                 type=openapi.TYPE_OBJECT,
-                properties={
-                    "resultado": openapi.Schema(type=openapi.TYPE_INTEGER)
-                }
+                properties={"resultado": openapi.Schema(type=openapi.TYPE_INTEGER)},
             ),
             400: openapi.Schema(
                 type=openapi.TYPE_OBJECT,
-                properties={
-                    "erro": openapi.Schema(type=openapi.TYPE_STRING)
-                }
+                properties={"erro": openapi.Schema(type=openapi.TYPE_STRING)},
             ),
         },
     )
     def post(self, request):
-        numero1 = request.data.get('numero1')
-        numero2 = request.data.get('numero2')
+        numero1 = request.data.get("numero1")
+        numero2 = request.data.get("numero2")
 
         if numero1 is None or numero2 is None:
             return Response(
                 {"erro": "Os campos 'numero1' e 'numero2' são obrigatórios."},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
@@ -93,7 +93,7 @@ class SomaFormato2View(APIView):
         except (TypeError, ValueError):
             return Response(
                 {"erro": "Os campos 'numero1' e 'numero2' devem ser números inteiros."},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         return Response({"resultado": total}, status=status.HTTP_200_OK)
